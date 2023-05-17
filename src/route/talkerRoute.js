@@ -18,8 +18,8 @@ routerTalker.get('/:id', async (req, res) => {
   const result = JSON.parse(data);
   const findResult = result.find((element) => Number(element.id) === Number(id));
   if (findResult === undefined) {
-    return res.status(404).json({ message: 'Pessoa palestrante não encontrada' })
-  };
+    return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  }
   return res.status(200).send(findResult);
 });
 
