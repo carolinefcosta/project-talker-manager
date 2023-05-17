@@ -1,9 +1,14 @@
 const express = require('express');
 const generateToken = require('../utils/generateToken');
+const validateEmail = require('../middlewares/validateEmail');
+const validatePassword = require('../middlewares/validatePassword');
 
 const routerLogin = express.Router();
 
-routerLogin.post('/', async (req, res) => {
+routerLogin.post('/',
+validateEmail,
+validatePassword,
+async (req, res) => {
   const { email, password } = req.body;
 
   if ([email, password].includes(undefined)) {
