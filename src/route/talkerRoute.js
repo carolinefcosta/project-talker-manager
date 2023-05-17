@@ -6,13 +6,13 @@ const router = express.Router();
 
 const path = require('path');
 
-router.get('/', async (req,res) => {
+router.get('/',async (req,res) => {
   const data = await fs.readFile(path.resolve(__dirname,'../talker.json'), 'utf-8');
   const result = JSON.parse(data);
   return res.status(200).send(result);
 });
 
-router.get('/:id', async (req,res) => {
+router.get('/:id',async (req,res) => {
   const { id } = req.params;
   const data = await fs.readFile(path.resolve(__dirname,'../talker.json'), 'utf-8');
   const result = JSON.parse(data);
