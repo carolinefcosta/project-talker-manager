@@ -1,5 +1,5 @@
 const express = require('express');
-const router = require('./route/talkerRoute');
+const routerTalker = require('./route/talkerRoute');
 
 const app = express();
 app.use(express.json());
@@ -16,6 +16,6 @@ app.listen(PORT, () => {
   console.log('Online');
 });
 
-app.use('/talker', router);
+app.use('/talker', routerTalker);
 
 module.exports = app;
