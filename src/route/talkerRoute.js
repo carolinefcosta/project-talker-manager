@@ -79,4 +79,15 @@ routerTalker.delete('/:id', auth, async (req, res) => {
   return res.status(204).end();
 });
 
+routerTalker.get('/search', auth, async (req, res) => {
+  const { q } = req.query;
+  const data = await fs.readFile(myPath, 'utf-8');
+  const result = JSON.parse(data);
+  const filterSearch = result.filter((myName) => myName.name.includes(q));
+  if (!q || q === undefined) {
+    return res.status(200).send(result);
+  }
+  return res.status(200).json(filterSearch);
+});
+
 module.exports = routerTalker;
