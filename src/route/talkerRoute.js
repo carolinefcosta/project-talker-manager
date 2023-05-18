@@ -6,6 +6,8 @@ const auth = require('../middlewares/auth');
 const validateName = require('../middlewares/validateName');
 const validateAge = require('../middlewares/validateAge');
 const validateTalk = require('../middlewares/validateTalk');
+const validateWatchedAt = require('../middlewares/validateWatchedAt');
+const validateRate = require('../middlewares/validateRate');
 
 const routerTalker = express.Router();
 
@@ -26,8 +28,8 @@ routerTalker.get('/:id', async (req, res) => {
   return res.status(200).send(findResult);
 });
 
-routerTalker.post('/', auth, validateName, validateAge,
-validateTalk, async (req, res) => {
+routerTalker.post('/', auth, validateName, validateAge, validateTalk,
+validateWatchedAt, validateRate, async (req, res) => {
   const { name, age, talk } = req.body;
   const data = await fs.readFile(path.resolve(__dirname, '../talker.json'), 'utf-8');
   const result = JSON.parse(data);
