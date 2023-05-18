@@ -11,15 +11,17 @@ const validateRate = require('../middlewares/validateRate');
 
 const routerTalker = express.Router();
 
+const myPath = path.resolve(__dirname, '../talker.json');
+
 routerTalker.get('/', async (_req, res) => {
-  const data = await fs.readFile(path.resolve(__dirname, '../talker.json'), 'utf-8');
+  const data = await fs.readFile(myPath, 'utf-8');
   const result = JSON.parse(data);
   return res.status(200).send(result);
 });
 
 routerTalker.get('/:id', async (req, res) => {
   const { id } = req.params;
-  const data = await fs.readFile(path.resolve(__dirname, '../talker.json'), 'utf-8');
+  const data = await fs.readFile(myPath, 'utf-8');
   const result = JSON.parse(data);
   const findResult = result.find((element) => Number(element.id) === Number(id));
   if (findResult === undefined) {
@@ -31,7 +33,7 @@ routerTalker.get('/:id', async (req, res) => {
 routerTalker.post('/', auth, validateName, validateAge, validateTalk,
 validateWatchedAt, validateRate, async (req, res) => {
   const { name, age, talk } = req.body;
-  const data = await fs.readFile(path.resolve(__dirname, '../talker.json'), 'utf-8');
+  const data = await fs.readFile(myPath, 'utf-8');
   const result = JSON.parse(data);
 
   const newTalker = {
@@ -46,17 +48,17 @@ validateWatchedAt, validateRate, async (req, res) => {
 
   result.push(newTalker);
   const resultNewFile = JSON.stringify(result, null, 2);
-  await fs.writeFile(path.resolve(__dirname, '../talker.json'), resultNewFile);
+  await fs.writeFile(myPath, resultNewFile);
   return res.status(201).json(newTalker);
 });
 
 routerTalker.delete('/:id', auth, async (req, res) => {
   const { id } = req.params;
-  const data = await fs.readFile(path.resolve(__dirname, '../talker.json'), 'utf-8');
+  const data = await fs.readFile(myPath, 'utf-8');
   const result = JSON.parse(data);
   const filtered = result.filter((element) => Number(element.id) !== Number(id));
 
-  await fs.writeFile(path.resolve(__dirname, '../talker.json'), JSON.stringify(filtered));
+  await fs.writeFile(myPath, JSON.stringify(filtered));
   return res.status(204).end();
 });
 
