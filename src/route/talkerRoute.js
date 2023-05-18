@@ -52,6 +52,23 @@ validateWatchedAt, validateRate, async (req, res) => {
   return res.status(201).json(newTalker);
 });
 
+routerTalker.put('/:id', auth, validateName, validateAge, validateTalk,
+validateWatchedAt, validateRate, async (req, res) => {
+  const { id } = req.params;
+  const { name, age, talk } = req.body;
+  const data = await fs.readFile(myPath, 'utf-8');
+  const result = JSON.parse(data);
+  const talkerFind = result.find((talker) => Number(talker.id) === Number(id));
+  if (talkerFind) {
+    talkerFind.name = name;
+    talkerFind.age = age;
+    talkerFind.talk = talk;
+    await fs.writeFile(myPath, JSON.stringify([...result, talkerFind]));
+    return res.status(200).json(talkerFind);
+  };
+  return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+})
+
 routerTalker.delete('/:id', auth, async (req, res) => {
   const { id } = req.params;
   const data = await fs.readFile(myPath, 'utf-8');
