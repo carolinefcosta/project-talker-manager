@@ -54,9 +54,9 @@ routerTalker.delete('/:id', auth, async (req, res) => {
   const { id } = req.params;
   const data = await fs.readFile(path.resolve(__dirname, '../talker.json'), 'utf-8');
   const result = JSON.parse(data);
-  const filtered = result.filter((element) => element.id !== Number(id));
+  const filtered = result.filter((element) => Number(element.id) !== Number(id));
 
-  await fs.writeFile(path.resolve(__dirname, '../talker.json'), filtered);
+  await fs.writeFile(path.resolve(__dirname, '../talker.json'), JSON.stringify(filtered));
   return res.status(204).end();
 });
 
