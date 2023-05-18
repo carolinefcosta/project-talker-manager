@@ -65,9 +65,9 @@ validateWatchedAt, validateRate, async (req, res) => {
     talkerFind.talk = talk;
     await fs.writeFile(myPath, JSON.stringify([...result, talkerFind]));
     return res.status(200).json(talkerFind);
-  };
+  }
   return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
-})
+});
 
 routerTalker.delete('/:id', auth, async (req, res) => {
   const { id } = req.params;
